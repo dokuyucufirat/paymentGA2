@@ -34,6 +34,7 @@ phases:
 
   post_build:
     commands:
+      - cd PaymentGetaway
       - echo "Post-build phase"
       - dotnet publish PaymentGetaway.csproj -c Release -r linux-x64 -o ./build --self-contained false
 
