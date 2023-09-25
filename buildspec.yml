@@ -28,14 +28,12 @@ phases:
 
   build:
     commands:
-      - cd PaymentGetaway
       - echo "Build phase"
       - dotnet restore PaymentGetaway.csproj
       - dotnet build PaymentGetaway.csproj -c Release
 
   post_build:
     commands:
-      - cd PaymentGetaway
       - echo "Post-build phase"
       - dotnet publish PaymentGetaway.csproj -c Release -r linux-x64 -o ./build --self-contained false
 
