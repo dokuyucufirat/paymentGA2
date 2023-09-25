@@ -1,0 +1,56 @@
+﻿version: 0.2
+
+env:
+  variables:
+      ASPNETCORE_URLS: "http://*:80"
+  #parameter-store:
+     # key: "value"
+     # key: "value"
+  #secrets-manager:
+     # key: secret-id:json-key:version-stage:version-id
+     # key: secret-id:json-key:version-stage:version-id
+  #exported-variables:
+     # - variable
+     # - variable
+  #git-credential-helper: yes
+#batch:
+  #fast-fail: true
+  #build-list:
+  #build-matrix:
+  #build-graph:
+phases:
+  install:
+    commands:
+        - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel STS
+        - curl -O https://download.visualstudio.microsoft.com/download/pr/87a55ae3-917d-449e-a4e8-776f82976e91/03380e598c326c2f9465d262c6a88c45/dotnet-sdk-7.0.305-linux-x64.tar.gz
+        - sudo tar -zxvf dotnet-sdk-7.0.305-linux-x64.tar.gz -C /root/.dotnet
+
+
+  pre_build:
+    commands:
+      - echo "Pre-build phase"
+      # İhtiyaca göre ek komutlar ekleyebilirsiniz, örneğin bağımlılıkları yüklemek veya ön hazırlıkları yapmak için.
+
+  build:
+    commands:
+      - echo "Build phase"
+      - dotnet restore PaymentGetaway/PaymentGetaway.csproj # Projedeki bağımlılıkları yeniden yükleme
+      - dotnet build PaymentGetaway/PaymentGetaway.csproj -c Release  # .NET projenizi Release konfigürasyonunda derleme
+
+  post_build:
+    commands:
+      - echo "Post-build phase"
+      - dotnet publish PaymentGetaway/PaymentGetaway.csproj -c Release -r linux-x64 -o ./build --self-contained false
+      - cp Procfile ./build
+      # Daha fazla dağıtım adımlarını buraya ekleyebilirsiniz
+      # Örneğin: AWS Elastic Beanstalk, AWS Lambda, S3 vb. gibi hizmetlere dağıtım işlemleri
+
+artifacts:
+  files:
+    - '**/*'
+  name: $(date +%Y-%m-%d)
+  discard-paths: no
+  base-directory: ./build
+
+
+
