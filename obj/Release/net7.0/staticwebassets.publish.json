@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "SxNIBcLLd0jAqJ5X20lZLuukBis0LpcYb5VB+sOUEUU=",
+  "Source": "PaymentGetaway",
+  "BasePath": "_content/PaymentGetaway",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
