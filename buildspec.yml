@@ -26,16 +26,18 @@ phases:
         - sudo tar -zxvf dotnet-sdk-7.0.305-linux-x64.tar.gz -C /root/.dotnet
 
 
-  pre_build:
-    commands:
-      - echo "Pre-build phase"
-      # İhtiyaca göre ek komutlar ekleyebilirsiniz, örneğin bağımlılıkları yüklemek veya ön hazırlıkları yapmak için.
-
   build:
     commands:
+      - cd PaymentGetaway
       - echo "Build phase"
-      - dotnet restore PaymentGetaway/PaymentGetaway.csproj # Projedeki bağımlılıkları yeniden yükleme
-      - dotnet build PaymentGetaway/PaymentGetaway.csproj -c Release  # .NET projenizi Release konfigürasyonunda derleme
+      - dotnet restore PaymentGetaway.csproj
+      - dotnet build PaymentGetaway.csproj -c Release
+
+  post_build:
+    commands:
+      - cd PaymentGetaway
+      - echo "Post-build phase"
+      - dotnet publish PaymentGetaway.csproj -c Release -r linux-x64 -o ./build --self-contained false
 
   post_build:
     commands:
